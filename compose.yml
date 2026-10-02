@@ -1,0 +1,60 @@
+---
+version: '3.7'
+
+name: learning_rabbitmq_syncly
+services:
+  gateway:
+    build: ./
+    image: node:18-alpine
+    command: [ ash, -c, 'cd /usr/src/ && yarn install && yarn run monitor:container' ]
+    environment:
+      - TZ=America/Sao_Paulo
+    ports:
+      - '5566:80'
+    volumes:
+      - ./gateway/app:/usr/src/app/
+      - ./gateway/config:/usr/src/config/
+      - ./__containers__/gateway/yarn.lock:/usr/src/yarn.lock
+      - ./__containers__/gateway/node_modules:/usr/src/node_modules/
+      - ./gateway/.env:/usr/src/.env
+      - ./gateway/.env.container:/usr/src/.env.container
+      - ./gateway/package.json:/usr/src/package.json
+    depends_on:
+      - rabbitmq_queue
+    networks:
+      - internal
+  # ====================================================
+  first_consumer:
+    build: ./
+    image: node:18-alpine
+    command: [ ash, -c, 'cd /usr/src/ && yarn install && yarn run monitor:container' ]
+    environment:
+      - TZ=America/Sao_Paulo
+    volumes:
+      - ./first-consumer/app:/usr/src/app/
+      - ./first-consumer/config:/usr/src/config/
+      - ./__containers__/first-consumer/yarn.lock:/usr/src/yarn.lock
+      - ./__containers__/first-consumer/node_modules:/usr/src/node_modules/
+      - ./first-consumer/.env:/usr/src/.env
+      - ./first-consumer/.env.container:/usr/src/.env.container
+      - ./first-consumer/package.json:/usr/src/package.json
+    depends_on:
+      - rabbitmq_queue
+    networks:
+      - internal
+  # ====================================================
+  rabbitmq_queue:
+    image: rabbitmq:3-management-alpine
+    ports:
+    #     - 5672:5672
+        - 12222:15672
+    volumes:
+        - ./__containers__/rabbitmq-queue/data/:/var/lib/rabbitmq/
+        - ./__containers__/rabbitmq-queue/log/:/var/log/rabbitmq
+    networks:
+        - internal
+
+networks:
+  internal:
+    driver: bridge
+    name: learning_rabbitmq_syncly

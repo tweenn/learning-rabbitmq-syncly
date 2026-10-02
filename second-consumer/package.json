@@ -1,0 +1,28 @@
+{
+	"name": "learning-rabbitmq-syncly",
+	"version": "1.0.0",
+	"description": "A project to learn how to syncly render async calls",
+	"main": "index.js",
+	"repository": "git@github.com:tweenn/learning-rabbitmq-syncly.git",
+	"author": "Felipe Zuntini <felipezuntini@hotmail.com>",
+	"license": "MIT",
+	"scripts": {
+		"start": "ts-node ./app/index.ts",
+		"monitor:dev": "export NODE_ENV=development && nodemon ./app/index.ts",
+		"monitor:container": "export NODE_ENV=container && nodemon ./app/index.ts"
+	},
+	"devDependencies": {
+		"eslint": "9.5.0",
+		"nodemon": "3.1.4",
+		"standard": "17.1.0"
+	},
+	"dependencies": {
+		"@types/amqplib": "0.10.5",
+		"@types/node": "20.14.6",
+		"amqplib": "0.10.4",
+		"config": "3.3.11",
+		"dotenv-flow": "4.1.0",
+		"ts-node": "10.9.2",
+		"typescript": "5.4.5"
+	}
+}

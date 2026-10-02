@@ -1,0 +1,16 @@
+{
+	"http": {
+		"port": "PORT",
+		"host": "HOST"
+	},
+	"fastify": {
+		"logger": "FASTIFY_LOGGER"
+	},
+	"queue": {
+		"endpoint": "QUEUE_ENDPOINT",
+		"channels": {
+			"request": "QUEUE_REQUEST",
+			"answer": "QUEUE_ANSWER"
+		}
+	}
+}
